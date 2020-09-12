@@ -16,7 +16,7 @@ class TagsTableSeeder extends Seeder
         'sportiva',
         'berlina',
         'suv',
-        'coupe',
+        'coupe'
       ];
 
       foreach ($tags as $tag) {

@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
           [
             UsersTableSeeder::class,
             TagsTableSeeder::class,
-            CarsTableSeeder::class,
+            CarsTableSeeder::class
           ]
         );
     }

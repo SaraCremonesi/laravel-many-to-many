@@ -18,7 +18,6 @@ class CarController extends Controller
     {
       $cars = Car::all();
 
-      // dd($cars);
       return view('cars.index', compact('cars'));
     }
 
@@ -47,7 +46,6 @@ class CarController extends Controller
         $request->validate($this->validationData());
 
         $requested_data = $request->all();
-        // dd($requested_data);
 
         // Nuova istanza Car
         $new_car = new Car();
@@ -84,9 +82,9 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Car $car)
     {
-        //
+      return view('cars.edit', compact('car'));
     }
 
     /**
