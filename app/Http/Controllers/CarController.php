@@ -43,7 +43,7 @@ class CarController extends Controller
     public function store(Request $request)
     {
         // Validazione
-        $request->validate($this->validationData());
+        $request->validate($this->getValidationRules());
 
         $requested_data = $request->all();
 
@@ -94,9 +94,15 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Car $car)
     {
-        //
+      $request->validate($this->getValidationRules());
+      $data = $request->all();
+      $updated = $shoe->update($data);
+
+      if ($updated) {
+        return redirect()->route('cars.show', $car);
+      }
     }
 
     /**
@@ -105,12 +111,14 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Car $car)
     {
-        //
+      $car->delete();
+
+      return redirect()->route('cars.index');
     }
 
-    public function validationData() {
+    public function getValidationRules() {
       return [
         'manifacturer' => 'required|max:255',
         'year' => 'required|integer|min:1990|max:2020',

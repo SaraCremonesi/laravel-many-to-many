@@ -1,9 +1,9 @@
 <h1>Dettagli Auto</h1>
 
-<h2> {{ $car->manifacturer}} {{ $car->engine }}</h2>
+<h2> {{ $car->manifacturer}} - Motore: {{ $car->engine }}</h2>
 <div>
   @foreach ($car->tags as $tag)
-    <span>Type: {{$tag->name}}</span>
+    <span>Tags: {{$tag->name}}</span>
   @endforeach
 </div>
 <ul>
@@ -16,7 +16,7 @@
   <b>{{ $car->user->name}}</b>
 </p>
 <p>
-  For contacts: <br>
+  Contacts: <br>
   <i>{{ $car->user->email}}</i>
 </p>
-<a href="{{ route('cars.index')}}">go back</a>
+<a href="{{ route('cars.index')}}">Back</a>
