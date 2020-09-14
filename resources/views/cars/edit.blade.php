@@ -10,31 +10,48 @@
   </div>
 @endif
 
-<form action="{{ route('cars.update', $car) }}" method="put">
+<form action="{{ route('cars.update', $car) }}" method="post">
   @csrf
   @method('PUT')
 
   <div>
     <div>
       <label>Manufacturer</label>
-      <input type="text" name="model" value="{{ old('manifacturer') ? old('manifacturer') : $car->manifacturer }}">
+      <input type="text" name="manifacturer" value="{{ old('manifacturer') ? old('manifacturer') : $car->manifacturer }}">
     </div>
 
     <div>
       <label>Year</label>
-      <input type="text" name="color" value="{{ old('year') ? old('year') : $car->year }}">
+      <input type="text" name="year" value="{{ old('year') ? old('year') : $car->year }}">
     </div>
 
     <div>
       <label>Engine</label>
-      <input type="text" name="size" value="{{ old('engine') ? old('engine') : $car->engine }}">
+      <input type="text" name="engine" value="{{ old('engine') ? old('engine') : $car->engine }}">
     </div>
 
     <div>
       <label>Plate</label>
-      <input type="text" name="price" value="{{ old('plate') ? old('plate') : $car->plate }}">
+      <input type="text" name="plate" value="{{ old('plate') ? old('plate') : $car->plate }}">
     </div>
 
+    <div>
+      <span>Tags:</span>
+      @foreach ($tags as $tag)
+        <div>
+          <input type="checkbox" name="tags[]" {{ $car->tags->contains($tag) ? 'checked' : '' }} value="{{$tag->id}}">
+          <label>{{$tag->name}}</label>
+        </div>
+      @endforeach
+    </div>
+
+    <div>
+      <select name="user_id">
+        @foreach ($users as $user)
+          <option value="{{$user->id}}" {{ $user->id == $car->user->id ? 'selected' : '' }}>{{$user->name}}</option>
+        @endforeach
+      </select>
+    </div>
 
     <div>
       <input type="submit" value="Edit">

@@ -84,7 +84,10 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-      return view('cars.edit', compact('car'));
+      $tags = Tag::all();
+      $users = User::all();
+
+      return view('cars.edit', compact('car', 'tags', 'users'));
     }
 
     /**
@@ -94,15 +97,22 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Car $car)
+    public function update(Request $request, Car $car)
     {
       $request->validate($this->getValidationRules());
-      $data = $request->all();
-      $updated = $shoe->update($data);
 
-      if ($updated) {
-        return redirect()->route('cars.show', $car);
+      $requested_data = $request->all();
+
+      if (isset($requested_data['tags'])) {
+        $car->tags()->sync($requested_data['tags']);
+      } else {
+        $car->tags()->detach();
       }
+
+      $car->update($requested_data);
+      $car->save();
+
+      return redirect()->route('cars.show', $car);
     }
 
     /**
@@ -113,6 +123,10 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+
+      //Eliminazione elemento con relazione molti a molti:
+      $car->tags()->detach();
+
       $car->delete();
 
       return redirect()->route('cars.index');
